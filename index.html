@@ -2,10 +2,113 @@
 <html lang="en">
 <head>
     <title>Exercise 3</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script>
+        var planets = [];
+        // get data
+        fetch('https://swapi.co/api/planets/').then(function(response){
+            return response.json();
+        }).then(function(json){
+            planets = json.results;
+            show_data(planets)
+        })
+
+        function filter_data(){
+            var q = document.getElementById("filter").value;
+            data = planets.filter(function (planet){
+                return planet.name.toLowerCase().includes(q) || planet.rotation_period.includes(q) || planet.orbital_period.includes(q) || planet.diameter.includes(q) || planet.climate.includes(q) || planet.gravity.includes(q) || planet.terrain.includes(q) || planet.surface_water.includes(q) || planet.population.includes(q)
+            });
+            show_data(data);
+        }
+
+        function show_data(planets){
+            // console.log(planets.length);
+            var tr, td;
+            var tbody = document.getElementById("konten_data");
+            tbody.innerHTML = '';
+            for(var i = 0; i < planets.length; i++){
+                tr = tbody.insertRow(tbody.rows.length);
+
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "center");
+                td.innerHTML = i+1;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "center");
+                td.innerHTML = planets[i].name;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "right");
+                td.innerHTML = planets[i].rotation_period;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "right");
+                td.innerHTML = planets[i].orbital_period;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "right");
+                td.innerHTML = planets[i].diameter;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "center");
+                td.innerHTML = planets[i].climate;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "center");
+                td.innerHTML = planets[i].gravity;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "center");
+                td.innerHTML = planets[i].terrain;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "right");
+                td.innerHTML = planets[i].surface_water;
+                td = tr.insertCell(tr.cells.length);
+                td.setAttribute("align", "center");
+                td.innerHTML = planets[i].population;
+            }
+        }
+    </script>
 </head>
 <body>
     <center>
-        <h1>Daftar Planet</h1>
+        <h1>Planet List</h1>
     </center>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Filter</span>
+                            </div>
+                            <input type="text" class="form-control" oninput="filter_data()" placeholder="Search..." id="filter">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Rotation Period</th>
+                                <th scope="col">Orbital Period</th>
+                                <th scope="col">Diameter</th>
+                                <th scope="col">Climate</th>
+                                <th scope="col">Gravity</th>
+                                <th scope="col">Terrain</th>
+                                <th scope="col">Surface Water</th>
+                                <th scope="col">Population</th>
+                            </tr>
+                        </thead>
+                        <tbody id="konten_data"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
